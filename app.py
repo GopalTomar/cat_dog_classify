@@ -6,8 +6,14 @@ from tensorflow.keras.preprocessing import image
 import requests
 import gdown
 
-# Replace this with your actual Google Drive link for the .h5 file
-GOOGLE_DRIVE_LINK = "https://drive.google.com/file/d/1-zNCcGUSTA4kC6vtl9KliiIBP459O_2n/view?usp=drive_link"
+# Replace this URL with your actual Google Drive file URL
+gdown.download('your_google_drive_file_url', 'cats_vs_dogs_model.h5', quiet=False)
+
+# Load the model
+from tensorflow.keras.models import load_model
+
+model = load_model('cats_vs_dogs_model.h5')
+
 
 # Function to download the model from Google Drive
 def download_model():
