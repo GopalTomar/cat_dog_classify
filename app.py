@@ -3,22 +3,13 @@ import numpy as np
 import os
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
-import requests
 import gdown
-
-# Replace this URL with your actual Google Drive file URL
-gdown.download('your_google_drive_file_url', 'cats_vs_dogs_model.h5', quiet=False)
-
-# Load the model
-from tensorflow.keras.models import load_model
-
-model = load_model('cats_vs_dogs_model.h5')
-
 
 # Function to download the model from Google Drive
 def download_model():
     try:
-        # Using gdown to download the model file from Google Drive
+        # Replace this URL with your actual Google Drive file URL
+        GOOGLE_DRIVE_LINK = 'your_google_drive_file_url'  # Update this with your actual link
         gdown.download(GOOGLE_DRIVE_LINK, 'cats_vs_dogs_model.h5', quiet=False)
         model = load_model('cats_vs_dogs_model.h5')
         return model
@@ -30,9 +21,9 @@ def download_model():
 model = download_model()
 
 # Function to load and preprocess the image
-def load_and_preprocess_image(img_path):
+def load_and_preprocess_image(img):
     try:
-        img = image.load_img(img_path, target_size=(150, 150))  # Resize to model input size
+        img = image.load_img(img, target_size=(150, 150))  # Resize to model input size
         img_array = image.img_to_array(img) / 255.0  # Scale pixel values
         img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
         return img_array
@@ -68,10 +59,7 @@ def main():
         uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"], key='upload')
 
         # Session state to track whether an image is uploaded
-        if uploaded_file is not None:
-            st.session_state.uploaded = True
-        else:
-            st.session_state.uploaded = False
+        st.session_state.uploaded = uploaded_file is not None
 
         # Dropdown for folder selection (disabled if an image is uploaded)
         folder_selection = st.selectbox("Select folder:", ["Cats", "Dogs"], disabled=st.session_state.uploaded)
@@ -106,7 +94,7 @@ def main():
                 st.error(f"Error processing uploaded image: {e}")
 
         # Process selected image from dropdown (only if no uploaded image)
-        if not st.session_state.uploaded and image_selection:
+        if not st.session_state.uploaded and 'image_selection' in locals():
             try:
                 # Determine the full path of the selected image based on folder selection
                 if folder_selection == "Cats":
