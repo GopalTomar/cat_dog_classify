@@ -1,0 +1,5 @@
+streamlit
+tensorflow==2.12.0  # Ensure you're using a version compatible with your model
+numpy
+Pillow
+gdown
