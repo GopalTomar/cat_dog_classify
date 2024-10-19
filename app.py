@@ -8,8 +8,8 @@ import gdown
 # Function to download the model from Google Drive
 def download_model():
     try:
-        # Replace this URL with your actual Google Drive file URL
-        GOOGLE_DRIVE_LINK = 'your_google_drive_file_url'  # Update this with your actual link
+        # Google Drive link with the actual file ID
+        GOOGLE_DRIVE_LINK = 'https://drive.google.com/uc?id=1-zNCcGUSTA4kC6vtl9KliiIBP459O_2n'  # Update this with your actual link
         gdown.download(GOOGLE_DRIVE_LINK, 'cats_vs_dogs_model.h5', quiet=False)
         model = load_model('cats_vs_dogs_model.h5')
         return model
@@ -32,8 +32,8 @@ def load_and_preprocess_image(img):
         return None
 
 # Define directories for the cat and dog images
-cat_directory = r"C:\Users\Acer\Downloads\dog_cat_project\test_set\cats"
-dog_directory = r"C:\Users\Acer\Downloads\dog_cat_project\test_set\dogs"
+cat_directory = os.path.join(os.getcwd(), 'test_set', 'cats')  # Updated path
+dog_directory = os.path.join(os.getcwd(), 'test_set', 'dogs')  # Updated path
 
 # Create pages for the Streamlit app
 PAGES = {
